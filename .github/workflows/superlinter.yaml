@@ -1,6 +1,12 @@
 name: Super-Linter
 
-on: push
+on: 
+  push:
+    branches: 
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   super-lint:
@@ -15,3 +21,5 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ENABLED_LINTERS: eslint,json  # Lint only specific languages
+          LINTER_RULES_PATH: .github/linter.yml  # Optional custom rules configuration
