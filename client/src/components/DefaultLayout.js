@@ -8,110 +8,110 @@ import {
   MenuUnfoldOutlined,
   ShoppingCartOutlined,
   UnorderedListOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import "../styles/DefaultLayout.css";
-import Spinner from "./Spinner";
-const { Header, Sider, Content } = Layout;
+  UserOutlined
+} from '@ant-design/icons'
+import { Layout, Menu, theme } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import '../styles/DefaultLayout.css'
+import Spinner from './Spinner'
+const { Header, Sider, Content } = Layout
 
 const DefaultLayout = ({ children }) => {
-  const navigate = useNavigate();
-  const { cartItems, loading } = useSelector((state) => state.rootReducer);
-  const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate()
+  const { cartItems, loading } = useSelector((state) => state.rootReducer)
+  const [collapsed, setCollapsed] = useState(false)
   const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+    token: { colorBgContainer }
+  } = theme.useToken()
 
   const toggle = () => {
-    setCollapsed(!collapsed);
-  };
-  //to get localstorage data
+    setCollapsed(!collapsed)
+  }
+  // to get localstorage data
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+  }, [cartItems])
 
   return (
     <Layout>
       {loading && <Spinner />}
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo"></div>
+        <div className='logo' />
         <Menu
-          theme="dark"
-          mode="inline"
+          theme='dark'
+          mode='inline'
           defaultSelectedKeys={[window.location.pathname]}
         >
           <Menu.Item
-            key="/"
+            key='/'
             icon={<HomeOutlined />}
-            onClick={() => navigate("/")}
+            onClick={() => navigate('/')}
           >
             Home
           </Menu.Item>
           <Menu.Item
-            key="/bills"
+            key='/bills'
             icon={<CopyOutlined />}
-            onClick={() => navigate("/bills")}
+            onClick={() => navigate('/bills')}
           >
             Bills
           </Menu.Item>
           <Menu.Item
-            key="/items"
+            key='/items'
             icon={<UnorderedListOutlined />}
-            onClick={() => navigate("/items")}
+            onClick={() => navigate('/items')}
           >
             Items
           </Menu.Item>
           <Menu.Item
-            key="/customers"
+            key='/customers'
             icon={<UserOutlined />}
-            onClick={() => navigate("/customers")}
+            onClick={() => navigate('/customers')}
           >
             Customers
           </Menu.Item>
           <Menu.Item
-            key="/logout"
+            key='/logout'
             icon={<LogoutOutlined />}
             onClick={() => {
-              localStorage.removeItem("user");
-              navigate("/login");
+              localStorage.removeItem('user')
+              navigate('/login')
             }}
           >
             Logout
           </Menu.Item>
         </Menu>
       </Sider>
-      <Layout className="site-layout">
+      <Layout className='site-layout'>
         <Header
           style={{
             margin: 8,
             padding: 0,
             borderRadius: 8,
-            background: colorBgContainer,
+            background: colorBgContainer
           }}
         >
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
-              className: "trigger",
-              onClick: toggle,
+              className: 'trigger',
+              onClick: toggle
             }
           )}
           <div
-            className="cart-item d-flex jusitfy-content-space-between flex-row"
-            onClick={() => navigate("/cart")}
+            className='cart-item d-flex jusitfy-content-space-between flex-row'
+            onClick={() => navigate('/cart')}
           >
             <p>{cartItems.length}</p>
             <ShoppingCartOutlined />
           </div>
         </Header>
-        <Content className="content">{children}</Content>
+        <Content className='content'>{children}</Content>
       </Layout>
     </Layout>
-  );
-};
+  )
+}
 
-export default DefaultLayout;
+export default DefaultLayout

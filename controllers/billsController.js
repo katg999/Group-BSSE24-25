@@ -1,28 +1,28 @@
-const billsModel = require("../models/billsModel");
+const billsModel = require('../models/billsModel')
 
-//add items
+// add items
 const addBillsController = async (req, res) => {
   try {
-    const newBill = new billsModel(req.body);
-    await newBill.save();
-    res.send("Bill Created Successfully!");
+    const newBill = new billsModel(req.body)
+    await newBill.save()
+    res.send('Bill Created Successfully!')
   } catch (error) {
-    res.send("something went wrong");
-    console.log(error);
+    res.send('something went wrong')
+    console.log(error)
   }
-};
+}
 
-//get blls data
+// get blls data
 const getBillsController = async (req, res) => {
   try {
-    const bills = await billsModel.find();
-    res.send(bills);
+    const bills = await billsModel.find()
+    res.send(bills)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 module.exports = {
   addBillsController,
-  getBillsController,
-};
+  getBillsController
+}

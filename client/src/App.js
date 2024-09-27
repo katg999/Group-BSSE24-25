@@ -1,19 +1,19 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import BillsPage from "./pages/BillsPage";
-import CartPage from "./pages/CartPage";
-import CustomerPage from "./pages/CustomerPage";
-import Homepage from "./pages/Homepage";
-import ItemPage from "./pages/ItemPage";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import BillsPage from './pages/BillsPage'
+import CartPage from './pages/CartPage'
+import CustomerPage from './pages/CustomerPage'
+import Homepage from './pages/Homepage'
+import ItemPage from './pages/ItemPage'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
-function App() {
+function App () {
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route
-            path="/"
+            path='/'
             element={
               <ProtectedRoute>
                 <Homepage />
@@ -21,7 +21,7 @@ function App() {
             }
           />
           <Route
-            path="/items"
+            path='/items'
             element={
               <ProtectedRoute>
                 <ItemPage />
@@ -29,7 +29,7 @@ function App() {
             }
           />
           <Route
-            path="/cart"
+            path='/cart'
             element={
               <ProtectedRoute>
                 <CartPage />
@@ -37,7 +37,7 @@ function App() {
             }
           />
           <Route
-            path="/bills"
+            path='/bills'
             element={
               <ProtectedRoute>
                 <BillsPage />
@@ -45,28 +45,26 @@ function App() {
             }
           />
           <Route
-            path="/customers"
+            path='/customers'
             element={
               <ProtectedRoute>
                 <CustomerPage />
               </ProtectedRoute>
             }
           />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>
-  );
+  )
 }
 
-
-
-export function ProtectedRoute({ children }) {
-  if (localStorage.getItem("user")) {
-    return children;
+export function ProtectedRoute ({ children }) {
+  if (localStorage.getItem('user')) {
+    return children
   } else {
-    return <Navigate to="/login" />;
+    return <Navigate to='/login' />
   }
 }
 

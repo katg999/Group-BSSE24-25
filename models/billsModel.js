@@ -1,42 +1,42 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const billSchema = mongoose.Schema(
   {
     customerName: {
       type: String,
-      required: [true, "Customer name is required"],
+      required: [true, 'Customer name is required']
     },
     customerNumber: {
       type: String,
-      required: [true, "Customer number is required"],
+      required: [true, 'Customer number is required']
     },
-    subTotal:{
+    subTotal: {
       type: Number,
-      required: [true, "SubTotal amount is required"],
+      required: [true, 'SubTotal amount is required']
     },
     totalAmount: {
       type: Number,
-      required: [true, "Total amount is required"],
+      required: [true, 'Total amount is required']
     },
     tax: {
       type: Number,
-      required: [true, "Tax is required"],
+      required: [true, 'Tax is required']
     },
     paymentMode: {
       type: String,
-      required: [true, "Payment mode is required"],
+      required: [true, 'Payment mode is required']
     },
     cartItems: {
       type: Array,
-      required: [true, "Cart items are required"],
+      required: [true, 'Cart items are required']
     },
     date: {
       type: Date,
-      default: Date.now(),
-    },
-  },
-);
+      default: Date.now()
+    }
+  }
+)
 
-const Bills = mongoose.model("bills", billSchema);
+const Bills = mongoose.model('bills', billSchema)
 
-module.exports = Bills;
+module.exports = Bills
