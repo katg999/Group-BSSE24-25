@@ -19,8 +19,7 @@ jobs:
       - name: Run Super-Linter
         uses: github/super-linter@v4
         env:
+          DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENABLED_LINTERS: eslint # Only use ESLint for JavaScript files
-          DISABLED_LINTERS: json # Disable JSON linter for simplicity
+          ENABLED_LINTERS: eslint,json # Lint only specific languages
           LINTER_RULES_PATH: .github/linter.yml # Optional custom rules configuration
-
