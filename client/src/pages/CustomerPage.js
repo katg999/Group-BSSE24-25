@@ -1,49 +1,47 @@
-import { Table } from "antd";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import DefaultLayout from "../components/DefaultLayout";
-const CutomerPage = () => {
-  const [billsData, setBillsData] = useState([]);
-  const dispatch = useDispatch();
-  const getAllBills = async () => {
-    try {
-      dispatch({
-        type: "SHOW_LOADING",
-      });
-      const { data } = await axios.get("/api/bills/get-bills");
-      setBillsData(data);
-      dispatch({ type: "HIDE_LOADING" });
-      console.log(data);
-    } catch (error) {
-      dispatch({ type: "HIDE_LOADING" });
-      console.log(error);
-    }
-  };
-  //useEffect
-  useEffect(() => {
-    getAllBills();
-    //eslint-disable-next-line
-  }, []);
+import { Table } from 'antd';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import DefaultLayout from '../components/DefaultLayout';
 
-  const columns = [
-    { title: "ID", dataIndex: "_id" },
-    { title: "Cutomer Name", dataIndex: "customerName"},
-    { title: "Contact No", dataIndex: "customerNumber" },
-    { title: "Total Amount", dataIndex: "totalAmount" },
-  ];
+const CustomerPage = () => {
+	const [billsData, setBillsData] = useState([]);
+	const dispatch = useDispatch();
 
-  return (
-    <DefaultLayout>
-      <h1>Cutomer Page</h1>
-      <Table
-        columns={columns}
-        dataSource={billsData}
-        bordered
-        pagination={false}
-      />
-    </DefaultLayout>
-  );
+	const getAllBills = async () => {
+		try {
+			dispatch({ type: 'SHOW_LOADING' });
+			const { data } = await axios.get('/api/bills/get-bills');
+			setBillsData(data);
+		} catch (error) {
+			console.error('Error fetching bills:', error);
+		} finally {
+			dispatch({ type: 'HIDE_LOADING' });
+		}
+	};
+
+	useEffect(() => {
+		getAllBills();
+	}, []); // Empty dependency array to call once on component mount
+
+	const columns = [
+		{ title: 'ID', dataIndex: '_id' },
+		{ title: 'Customer Name', dataIndex: 'customerName' }, // Fixed typo in "Customer"
+		{ title: 'Contact No', dataIndex: 'customerNumber' },
+		{ title: 'Total Amount', dataIndex: 'totalAmount' },
+	];
+
+	return (
+		<DefaultLayout>
+			<h1>Customer Page</h1>
+			<Table
+				columns={columns}
+				dataSource={billsData}
+				bordered
+				pagination={false}
+			/>
+		</DefaultLayout>
+	);
 };
 
-export default CutomerPage;
+export default CustomerPage;
