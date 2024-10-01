@@ -20,11 +20,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18' # Use Node.js 14 or any version your project requires
+          node-version: '18' # Use the latest stable Node.js version
 
       - name: Install dependencies
         run: npm install
 
       - name: Run ESLint
-        run: npx eslint src/components # Lint all files in the repository
+        run: npx eslint src/components # Lint JavaScript files in the components directory
 
