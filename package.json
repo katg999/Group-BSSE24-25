@@ -22,5 +22,8 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22",
     "zxcvbn": "^4.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.11.1"
   }
 }
