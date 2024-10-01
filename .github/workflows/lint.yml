@@ -1,4 +1,4 @@
-name: Super-Linter
+name: ESLint
 
 on:
   push:
@@ -9,14 +9,22 @@ on:
       - LintCodeBase # Run only on your branch
 
 jobs:
-  super-lint:
-    name: Lint code base
+  eslint:
+    name: Run ESLint
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run Super-Linter
-        uses: github/super-linter@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18' # Use Node.js 14 or any version your project requires
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npx eslint src/components # Lint all files in the repository
+
