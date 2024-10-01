@@ -27,4 +27,3 @@ jobs:
 
       - name: Run ESLint
         run: npx eslint src/components # Lint JavaScript files in the components directory
-
