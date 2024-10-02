@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, spencers, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, spencers, master ]
 
 jobs:
   build:
@@ -33,11 +33,48 @@ jobs:
     - name: Build
       run: npm run build       
 
-#   deploy:
-#     needs: build
-#     runs-on: ubuntu-latest
-#     if: github.ref == 'refs/heads/main'
+  deploy-staging:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1  # Replace with your AWS region
 
-#     steps:
-#     - name: Deploy to production
-#       run: echo "Add your deployment script here"
+    - name: Deploy to AWS Staging
+      run: |
+        # Add your AWS CLI commands here to deploy to staging
+        # For example, if using Elastic Beanstalk:
+        # aws elasticbeanstalk create-application-version --application-name YourAppName --version-label ${{ github.sha }}
+        # aws elasticbeanstalk update-environment --environment-name YourStagingEnvName --version-label ${{ github.sha }}
+        echo "Deploying to AWS Staging Environment"
+
+  # deploy-production:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
+    
+  #   steps:
+  #   - uses: actions/checkout@v2
+    
+  #   - name: Configure AWS credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: us-east-1  # Replace with your AWS region
+
+  #   - name: Deploy to AWS Production
+  #     run: |
+  #       # Add your AWS CLI commands here to deploy to production
+  #       # For example, if using Elastic Beanstalk:
+  #       # aws elasticbeanstalk create-application-version --application-name YourAppName --version-label ${{ github.sha }}
+  #       # aws elasticbeanstalk update-environment --environment-name YourProductionEnvName --version-label ${{ github.sha }}
+  #       echo "Deploying to AWS Production Environment"
