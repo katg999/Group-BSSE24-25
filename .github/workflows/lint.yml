@@ -3,10 +3,10 @@ name: ESLint
 on:
   push:
     branches:
-      - LintCodeBase # Run only on your branch
+      - TargetDirectory # Run only on your branch
   pull_request:
     branches:
-      - LintCodeBase # Run only on your branch
+      - TargetDirectory # Run only on your branch
 
 jobs:
   eslint:
@@ -20,23 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-<<<<<<< HEAD
           node-version: '18' # Use the latest stable Node.js version
-=======
-<<<<<<< HEAD
-          node-version: '18' # Use the latest stable Node.js version
-=======
-<<<<<<< HEAD
-          node-version: '18' # Use the latest stable Node.js version
-=======
-<<<<<<< HEAD
-          node-version: '18' # Use Node.js 14 or any version your project requires
-=======
-          node-version: '14' # Use Node.js 14 or any version your project requires
->>>>>>> 1a99a174b56d7e1940ba24c0a677dd3665c773dc
->>>>>>> a81fc7139de217814b5a06d763843a6ac62b302d
->>>>>>> 1e931b18b2c543ff01ff6f122817355c77920f3b
->>>>>>> 8843ecf89832f8c0bfa15af29bb887f601ad5922
 
       - name: Install dependencies
         run: npm install
