@@ -52,21 +52,30 @@ jobs:
     
     - name: Set deployment environment
       run: |
-        if [ ${{ github.ref }} == 'refs/heads/main' ]; then
-          echo "DEPLOY_ENV=main" >> $GITHUB_ENV
-        elif [ ${{ github.ref }} == 'refs/heads/spencers' ]; then
-          echo "DEPLOY_ENV=spencers" >> $GITHUB_ENV
-        elif [ ${{ github.ref }} == 'refs/heads/master' ]; then
-          echo "DEPLOY_ENV=master" >> $GITHUB_ENV
-        fi
+          if [ ${{ github.ref }} == 'refs/heads/main' ]; then
+            echo "DEPLOY_ENV=main" >> $GITHUB_ENV
+            echo "EB_ENVIRONMENT=main-staging" >> $GITHUB_ENV
+          elif [ ${{ github.ref }} == 'refs/heads/spencers' ]; then
+            echo "DEPLOY_ENV=spencers" >> $GITHUB_ENV
+            echo "EB_ENVIRONMENT=spencers-staging" >> $GITHUB_ENV
+          elif [ ${{ github.ref }} == 'refs/heads/master' ]; then
+            echo "DEPLOY_ENV=master" >> $GITHUB_ENV
+            echo "EB_ENVIRONMENT=master-staging" >> $GITHUB_ENV
+          fi
 
-    - name: Deploy to AWS Staging
+    - name: Deploy to AWS Elastic Beanstalk Staging
       run: |
-        # Add your AWS CLI commands here to deploy to staging
-        # For example, if using Elastic Beanstalk:
-        # aws elasticbeanstalk create-application-version --application-name YourAppName --version-label ${{ github.sha }}
-        # aws elasticbeanstalk update-environment --environment-name YourStagingEnvName --version-label ${{ github.sha }}
-        echo "Deploying to AWS Staging Environment"
+        echo "Deploying to AWS Elastic Beanstalk Staging Environment: ${{ env.EB_ENVIRONMENT }}"
+        # Create a new application version
+        aws elasticbeanstalk create-application-version \
+          --application-name POSView-Group \
+          --version-label ${{ github.sha }} \
+          --source-bundle S3Bucket="your-s3-bucket",S3Key="your-app-${{ github.sha }}.zip"
+        
+        # Update the environment with the new version
+        aws elasticbeanstalk update-environment \
+          --environment-name ${{ env.EB_ENVIRONMENT }} \
+          --version-label ${{ github.sha }}
 
   # deploy-production:
   #   - name: Deploy to AWS Production
