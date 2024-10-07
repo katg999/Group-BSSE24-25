@@ -1,0 +1,33 @@
+name: ESLint
+
+on:
+  push:
+    branches:
+      - TargetDirectory # Run only on your branch
+      - master # Run on master
+      - '**' # Run any other brnach
+  pull_request:
+    branches:
+      - TargetDirectory # Run only on your branch
+      - master # Run on all Pull Requests Targetting the master
+      - '**' # Run on pull requests targeting any other branch
+
+jobs:
+  eslint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18' # Use the latest stable Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npx eslint client/src/components # Lint JavaScript files in the components directory
