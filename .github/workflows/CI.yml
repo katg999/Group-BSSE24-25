@@ -66,7 +66,7 @@ jobs:
 
     - name: Deploy to AWS Elastic Beanstalk
       run: |
-            EB_ENVIRONMENT="main-staging"  # replace with your actual environment name
+            EB_ENVIRONMENT="POSView-Group-env"  # replace with your actual environment name
             EB_APPLICATION="POSView-Group"  # replace with your actual application name
             AWS_REGION="us-east-1"  # or eu-north-1, make sure this matches the region in the Configure AWS credentials step
             ACCOUNT_ID="503561421170"
