@@ -66,11 +66,13 @@ jobs:
 
     - name: Deploy to AWS Elastic Beanstalk
       run: |
-            # Get the S3 bucket name associated with the Elastic Beanstalk environment
-            EB_ENVIRONMENT="main-staging"  # replace with your environment name
-            S3_BUCKET=$(aws elasticbeanstalk describe-environments --environment-names $EB_ENVIRONMENT --query 'Environments[0].Resources.S3Bucket' --output text)
-            
-            echo "S3 Bucket for Elastic Beanstalk: $S3_BUCKET"
+            EB_ENVIRONMENT="main-staging"  # replace with your actual environment name
+            EB_APPLICATION="POSView-Group"  # replace with your actual application name
+            AWS_REGION="us-east-1"  # or eu-north-1, make sure this matches the region in the Configure AWS credentials step
+            ACCOUNT_ID="503561421170"
+            S3_BUCKET="elasticbeanstalk-${AWS_REGION}-${ACCOUNT_ID}"
+    
+            echo "Using S3 Bucket: $S3_BUCKET"
             
             # Zip the application
             zip -r application.zip .
@@ -80,7 +82,7 @@ jobs:
             
             # Create a new application version
             aws elasticbeanstalk create-application-version \
-              --application-name POSView-Group \
+              --application-name $EB_APPLICATION \
               --version-label ${{ github.sha }} \
               --source-bundle S3Bucket="$S3_BUCKET",S3Key="application-${{ github.sha }}.zip"
             
@@ -88,6 +90,4 @@ jobs:
             aws elasticbeanstalk update-environment \
               --environment-name $EB_ENVIRONMENT \
               --version-label ${{ github.sha }}
-   
-    
     
