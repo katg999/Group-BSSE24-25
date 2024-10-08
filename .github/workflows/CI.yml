@@ -64,27 +64,30 @@ jobs:
             echo "EB_ENVIRONMENT=master-staging" >> $GITHUB_ENV
           fi
 
-    - name: Deploy to AWS Elastic Beanstalk Staging
+    - name: Deploy to AWS Elastic Beanstalk
       run: |
-        echo "Deploying to AWS Elastic Beanstalk Staging Environment: ${{ env.EB_ENVIRONMENT }}"
-        # Create a new application version
-        aws elasticbeanstalk create-application-version \
-          --application-name POSView-Group \
-          --version-label ${{ github.sha }} \
-          --source-bundle S3Bucket="your-s3-bucket",S3Key="your-app-${{ github.sha }}.zip"
-        
-        # Update the environment with the new version
-        aws elasticbeanstalk update-environment \
-          --environment-name ${{ env.EB_ENVIRONMENT }} \
-          --version-label ${{ github.sha }}
-
-  # deploy-production:
-  #   - name: Deploy to AWS Production
-  #     run: |
-  #       # Add your AWS CLI commands here to deploy to production
-  #       # For example, if using Elastic Beanstalk:
-  #       # aws elasticbeanstalk create-application-version --application-name YourAppName --version-label ${{ github.sha }}
-  #       # aws elasticbeanstalk update-environment --environment-name YourProductionEnvName --version-label ${{ github.sha }}
-  #       echo "Deploying to AWS Production Environment"
-
-  # 
+            # Get the S3 bucket name associated with the Elastic Beanstalk environment
+            EB_ENVIRONMENT="main-staging"  # replace with your environment name
+            S3_BUCKET=$(aws elasticbeanstalk describe-environments --environment-names $EB_ENVIRONMENT --query 'Environments[0].Resources.S3Bucket' --output text)
+            
+            echo "S3 Bucket for Elastic Beanstalk: $S3_BUCKET"
+            
+            # Zip the application
+            zip -r application.zip .
+            
+            # Upload the application to S3
+            aws s3 cp application.zip s3://$S3_BUCKET/application-${{ github.sha }}.zip
+            
+            # Create a new application version
+            aws elasticbeanstalk create-application-version \
+              --application-name POSView-Group \
+              --version-label ${{ github.sha }} \
+              --source-bundle S3Bucket="$S3_BUCKET",S3Key="application-${{ github.sha }}.zip"
+            
+            # Update the environment with the new version
+            aws elasticbeanstalk update-environment \
+              --environment-name $EB_ENVIRONMENT \
+              --version-label ${{ github.sha }}
+   
+    
+    
