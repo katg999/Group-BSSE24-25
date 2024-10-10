@@ -2,8 +2,8 @@ import { Col, Row } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ItemList from '../components/ItemList';
-import DefaultLayout from '../components/DefaultLayout';
+import ItemList from '../components/ItemList.js';
+import DefaultLayout from '../components/DefaultLayout.js';
 
 const Homepage = () => {
 	const [itemsData, setItemsData] = useState([]);

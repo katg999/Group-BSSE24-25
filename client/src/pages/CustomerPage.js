@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import DefaultLayout from '../components/DefaultLayout';
+import DefaultLayout from '../components/DefaultLayout.js';
 
 const CustomerPage = () => {
 	const [billsData, setBillsData] = useState([]);

@@ -8,7 +8,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import DefaultLayout from '../components/DefaultLayout';
+import DefaultLayout from '../components/DefaultLayout.js';
 
 const CartPage = () => {
 	const [subTotal, setSubTotal] = useState(0);

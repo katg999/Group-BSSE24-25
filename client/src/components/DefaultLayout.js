@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../styles/DefaultLayout.css';
-import Spinner from './Spinner';
+import Spinner from './Spinner.js';
 
 const { Header, Sider, Content } = Layout;
 

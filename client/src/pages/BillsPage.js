@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
-import DefaultLayout from '../components/DefaultLayout';
+import DefaultLayout from '../components/DefaultLayout.js';
 import '../styles/InvoiceStyles.css';
 
 const BillsPage = () => {
