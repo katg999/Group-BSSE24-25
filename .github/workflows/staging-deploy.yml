@@ -1,9 +1,8 @@
 name: Staging Deployment
 
-
 permissions:
   contents: write  # Allows the workflow to modify the repo contents, including creating tags
-  actions: write 
+  actions: write
 
 on:
   push:
@@ -41,8 +40,8 @@ jobs:
 
       - name: Deploy Frontend to Render Staging
         env:
-          RENDER_API_KEY: "rnd_2ztciZQN2oRAh926hNpjcC3QpxE5 "
-          RENDER_SERVICE_ID: "srv-cs2nccjtq21c73fi4oug "
+          RENDER_API_KEY: "rnd_2ztciZQN2oRAh926hNpjcC3QpxE5"
+          RENDER_SERVICE_ID: "srv-cs2nccjtq21c73fi4oug"
         run: |
           curl -X POST "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/deploys" \
             -H "Authorization: Bearer ${RENDER_API_KEY}" \
@@ -66,7 +65,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const tagName = `staging-success-${Date.now()}`;
+            const tagName = `staging-success-frontend-${Date.now()}`;
             await github.rest.git.createRef({
               ...context.repo,
               ref: `refs/tags/${tagName}`,
@@ -98,8 +97,8 @@ jobs:
 
       - name: Deploy Backend to Render Staging
         env:
-          RENDER_API_KEY:  "rnd_2ztciZQN2oRAh926hNpjcC3QpxE5" 
-          RENDER_SERVICE_ID:  "srv-cs34g8l6l47c73e9fi2g "
+          RENDER_API_KEY: "rnd_2ztciZQN2oRAh926hNpjcC3QpxE5"
+          RENDER_SERVICE_ID: "srv-cs34g8l6l47c73e9fi2g"
         run: |
           curl -X POST "https://api.render.com/v1/services/${RENDER_SERVICE_ID}/deploys" \
             -H "Authorization: Bearer ${RENDER_API_KEY}" \
@@ -123,7 +122,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const tagName = `staging-success-${Date.now()}`;
+            const tagName = `staging-success-backend-${Date.now()}`;
             await github.rest.git.createRef({
               ...context.repo,
               ref: `refs/tags/${tagName}`,
@@ -146,7 +145,7 @@ jobs:
       - name: Find Last Successful Frontend Deployment Tag
         id: find-frontend-tag
         run: |
-          LAST_TAG=$(git tag --list "staging-success-*" --sort=-creatordate | grep frontend | head -n 1)
+          LAST_TAG=$(git tag --list "staging-success-frontend-*" --sort=-creatordate | head -n 1)
           echo "LAST_TAG_FRONTEND=${LAST_TAG}" >> $GITHUB_ENV
           echo "Last successful frontend tag: ${LAST_TAG}"
 
@@ -182,7 +181,7 @@ jobs:
       - name: Find Last Successful Backend Deployment Tag
         id: find-backend-tag
         run: |
-          LAST_TAG=$(git tag --list "staging-success-*" --sort=-creatordate | grep backend | head -n 1)
+          LAST_TAG=$(git tag --list "staging-success-backend-*" --sort=-creatordate | head -n 1)
           echo "LAST_TAG_BACKEND=${LAST_TAG}" >> $GITHUB_ENV
           echo "Last successful backend tag: ${LAST_TAG}"
 
@@ -201,6 +200,4 @@ jobs:
             -H "Authorization: Bearer ${RENDER_API_KEY}" \
             -H "Content-Type: application/json" \
             -d '{}'
-          echo "Backend rollback deployment triggered."name: Staging Deployment
-
-
+          echo "Backend rollback deployment triggered."
