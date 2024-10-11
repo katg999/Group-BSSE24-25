@@ -111,7 +111,7 @@ jobs:
 
       - name: Verify Backend Deployment
         run: |
-          sleep 60  # Wait for deployment to process
+          sleep 100  # Wait for deployment to process
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" https://group-bsse24-25-2.onrender.com/api/bills/get-bills)
           if [ "$RESPONSE" -ne 200 ]; then
             echo "Backend Production Health Check Failed with status $RESPONSE"
