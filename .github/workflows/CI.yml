@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, spencers, master ]
+    branches: [spencers]
   pull_request:
-    branches: [ main, spencers, master ]
+    branches: [ spencers]
 
 jobs:
   build:
@@ -22,10 +22,10 @@ jobs:
       run: npm cache clean --force
 
     - name: Install dependencies
-      run: npm ci
+      run: cd client && npm ci
 
     - name: Run tests
-      run: npm test
+      run: cd client && npm test
 
     # - name: Run linter
     #   run: npm run lint
