@@ -20,7 +20,7 @@ const BillsPage = () => {
 			dispatch({
 				type: 'SHOW_LOADING',
 			});
-			const { data } = await axios.get('/api/bills/get-bills');
+			const { data } = await axios.get('https://group-bsse24-25-2.onrender.com/api/bills/get-bills');
 			setBillsData(data);
 			dispatch({ type: 'HIDE_LOADING' });
 		} catch (error) {

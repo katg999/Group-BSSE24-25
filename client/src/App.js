@@ -3,7 +3,7 @@ import BillsPage from "./pages/BillsPage";
 import CartPage from "./pages/CartPage";
 import CustomerPage from "./pages/CustomerPage";
 import Homepage from "./pages/Homepage";
-import ItemPage from "./pages/itemPage";
+import ItemPage from "./pages/ItemPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
