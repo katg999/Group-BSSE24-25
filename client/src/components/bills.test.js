@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import BillsPage from './BillsPage';
+import BillsPage from '../pages/BillsPage';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
