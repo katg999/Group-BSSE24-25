@@ -1,0 +1,51 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - TargetDirectory # Deploy to both staging and production from the TargetDirectory branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the application
+        run: npm run build
+
+      - name: Deploy to Heroku (Staging)
+        if: github.ref == 'refs/heads/TargetDirectory'
+        run: |
+          git remote add heroku https://git.heroku.com/posview-staging.git
+          git push heroku HEAD:main
+        continue-on-error: true # Allow failure without stopping workflow
+
+      - name: Rollback Staging Deployment on Failure
+        if: failure()
+        run: |
+          echo "Deployment failed. Rolling back to the previous release..."
+          heroku releases:rollback --app posview-staging
+
+      - name: Deploy to Heroku (Production)
+        if: github.ref == 'refs/heads/TargetDirectory'
+        run: |
+          git remote add heroku https://git.heroku.com/posview-production.git
+          git push heroku HEAD:main
+        continue-on-error: true # Allow failure without stopping workflow
+
+      - name: Rollback Production Deployment on Failure
+        if: failure()
+        run: |
+          echo "Deployment failed. Rolling back to the previous release..."
+          heroku releases:rollback --app posview-production
