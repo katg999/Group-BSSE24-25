@@ -20,6 +20,8 @@ const CustomerPage = () => {
 		}
 	};
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+
 	useEffect(() => {
 		getAllBills();
 	}, []); // Empty dependency array to call once on component mount
