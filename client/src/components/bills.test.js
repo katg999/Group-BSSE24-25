@@ -1,29 +1,20 @@
-import { render } from '@testing-library/react'; 
-import BillsPage from '../pages/BillsPage';
+import configureStore from 'redux-mock-store'; // Mock store
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import { MemoryRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
+import BillsPage from './BillsPage'; // Assuming you're testing this component
 
 const mockStore = configureStore([]);
 
-describe('BillsPage Component', () => {
-	let store;
+test('renders without crashing', () => {
+    const store = mockStore({
+        cart: { cartItems: [] }, // mock the state structure your component expects
+    });
 
-	beforeEach(() => {
-		store = mockStore({
-			// Mock any necessary store states here, for example:
-			loading: false,
-		});
-	});
-
-	test('renders without crashing', () => {
-		render(
-			<Provider store={store}>
-				<MemoryRouter>
-					<BillsPage />
-				</MemoryRouter>
-			</Provider>
-		);
-		// No assertions, just ensuring the render doesn't throw any errors
-	});
+    render(
+        <Provider store={store}>
+            <MemoryRouter>
+                <BillsPage />
+            </MemoryRouter>
+        </Provider>
+    );
 });
