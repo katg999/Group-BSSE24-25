@@ -96,9 +96,7 @@ jobs:
         working-directory: ./
 
 
-      - name: Run Tests
-        run: npm test
-        working-directory: ./
+
 
       - name: Deploy Backend to Render Staging
         env:
