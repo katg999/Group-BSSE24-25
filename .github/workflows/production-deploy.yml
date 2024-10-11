@@ -1,4 +1,4 @@
-name: Staging Deployment
+name: Production Deployment
 
 permissions:
   contents: write  # Allows the workflow to modify the repo contents, including creating tags
