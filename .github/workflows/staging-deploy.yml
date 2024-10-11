@@ -91,6 +91,11 @@ jobs:
         run: npm install
         working-directory: ./
 
+      - name: Install react-scripts
+        run: npm install react-scripts --save-dev
+        working-directory: ./
+
+
       - name: Run Tests
         run: npm test
         working-directory: ./
