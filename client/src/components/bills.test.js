@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';  // make sure it's from react-dom/test-utils for proper handling of hooks
 import BillsPage from '../pages/BillsPage';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { MemoryRouter } from 'react-router-dom';
 
 const mockStore = configureStore([]);
 
@@ -15,12 +17,16 @@ describe('BillsPage Component', () => {
 		});
 	});
 
-	test('renders the table with no data', () => {
-		render(
-			<Provider store={store}>
-				<BillsPage />
-			</Provider>
-		);
+	test('renders the table with no data', async () => {
+		await act(async () => {
+			render(
+				<Provider store={store}>
+					<MemoryRouter>
+						<BillsPage />
+					</MemoryRouter>
+				</Provider>
+			);
+		});
 
 		const invoiceHeader = screen.getByText(/invoice list/i);
 		expect(invoiceHeader).toBeInTheDocument();
