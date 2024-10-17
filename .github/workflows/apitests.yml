@@ -9,7 +9,7 @@ on:
   pull_request:
     branches:
       - TargetDirectory # Run only on your branch
-      - master # Run on all Pull Requests Targetting the master
+      - master # Run on all Pull Requests targeting the master
       - '**' # Run on pull requests targeting any other branch
 
 jobs:
@@ -29,4 +29,6 @@ jobs:
         run: npm install
 
       - name: Run API Tests
+        env:
+          DB_URL: ${{ secrets.DB_URL }} # Set DB_URL from secrets
         run: npm test # This will execute your Jest tests
