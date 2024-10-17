@@ -20,11 +20,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
-app.use('/api/items', itemRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/bills', billsRoutes);
+// Sample data for /api/users endpoint
+const sampleUsers = [
+	{ id: 1, username: 'user1', email: 'user1@example.com' },
+	{ id: 2, username: 'user2', email: 'user2@example.com' },
+];
 
-// static files
+// Sample route for /api/users
+app.get('/api/users', (req, res) => {
+	res.json({ users: sampleUsers });
+});
+
+// Sample data for testing
+const sampleBills = [
+	{ id: 1, amount: 100, description: 'Bill 1' },
+	{ id: 2, amount: 200, description: 'Bill 2' },
+];
+
+// Sample route for /api/Bills
+app.get('/api/bills', (req, res) => {
+	res.json({ bills: sampleBills }); // Change 'users' to 'bills'
+});
+
+// Serve static files
 app.use(express.static(path.join(__dirname, './client/build')));
 
 app.get('*', function (req, res) {
@@ -33,6 +51,14 @@ app.get('*', function (req, res) {
 
 const PORT = process.env.PORT || 4001;
 
-app.listen(PORT, () => {
-	console.log(`Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+	const server = app.listen(PORT, () => {
+		console.log(`Server running on http://localhost:${PORT}`);
+	});
+
+	// Export the server for testing
+	module.exports = { app, server };
+} else {
+	// Export the app for testing without starting the server
+	module.exports = { app };
+}
