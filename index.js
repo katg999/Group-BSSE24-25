@@ -8,11 +8,15 @@ const itemRoutes = require('./routes/itemRoutes');
 const userRoutes = require('./routes/userRoute');
 const billsRoutes = require('./routes/billsRoute');
 const path = require('path');
+const { collectDefaultMetrics, register } = require('prom-client');
+
 
 dotenv.config();
 connectDb();
 
 const app = express();
+
+collectDefaultMetrics();
 
 app.use(cors());
 app.use(express.json());
@@ -23,6 +27,12 @@ app.use(morgan('dev'));
 app.use('/api/items', itemRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bills', billsRoutes);
+
+// Metrics endpoint for Prometheus
+app.get('/metrics', async (req, res) => {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+});
 
 // static files
 app.use(express.static(path.join(__dirname, './client/build')));
