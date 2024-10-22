@@ -1,9 +1,8 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
-import pluginHooks from "eslint-plugin-react-hooks";  // Add this import
 
-export default [
+const config = [
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
     languageOptions: { 
@@ -16,9 +15,10 @@ export default [
         }
       }
     },
-    plugins: {
-      react: pluginReact,
-      "react-hooks": pluginHooks
+    settings: {
+      react: {
+        version: "detect"
+      }
     },
     rules: {
       // Disable all rules from pluginJs.configs.recommended
@@ -29,11 +29,27 @@ export default [
       ...Object.fromEntries(
         Object.keys(pluginReact.configs.flat.recommended.rules || {}).map(rule => [rule, "off"])
       ),
-      // Only enable parsing errors and hooks rules
+      // Only enable parsing errors
       "no-unused-vars": "off",
-      "no-undef": "off",
-      "react-hooks/rules-of-hooks": "error",    // Checks rules of Hooks
-      "react-hooks/exhaustive-deps": "warn"     // Checks effect dependencies
+      "no-undef": "off"
     }
   }
 ];
+
+// Conditionally add react-hooks rules if the plugin is available
+try {
+  const pluginHooks = await import("eslint-plugin-react-hooks");
+  config[0].plugins = {
+    react: pluginReact,
+    "react-hooks": pluginHooks.default
+  };
+  config[0].rules = {
+    ...config[0].rules,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  };
+} catch (error) {
+  console.warn("eslint-plugin-react-hooks not found, skipping hooks-related rules");
+}
+
+export default config;
