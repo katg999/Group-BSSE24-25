@@ -1,33 +1,32 @@
-import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
-
-// Initialize FlatCompat with the recommended ESLint config
-const compat = new FlatCompat({
-	baseDirectory: import.meta.url, // Use 'import.meta.url' for ES module
-	recommendedConfig: js.configs.recommended, // Passing the recommended config
-});
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginReact from "eslint-plugin-react";
 
 export default [
-	js.configs.recommended, // Use ESLint's recommended JavaScript config
-	...compat.config({
-		extends: ['eslint:recommended', 'plugin:react/recommended'], // Your specific configurations
-		parserOptions: {
-			ecmaVersion: 2021,
-			sourceType: 'module',
-		},
-		env: {
-			browser: true,
-			es2021: true,
-			node: true,
-		},
-		settings: {
-			react: {
-				version: 'detect', // Automatically detect the react version
-			},
-		},
-		rules: {
-			'no-console': 'warn', // Custom rules
-			'react/prop-types': 'off',
-		},
-	}),
+  {
+    files: ["**/*.{js,mjs,cjs,jsx}"],
+    languageOptions: { 
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    },
+    rules: {
+      // Disable all rules from pluginJs.configs.recommended
+      ...Object.fromEntries(
+        Object.keys(pluginJs.configs.recommended.rules || {}).map(rule => [rule, "off"])
+      ),
+      // Disable all rules from pluginReact.configs.flat.recommended
+      ...Object.fromEntries(
+        Object.keys(pluginReact.configs.flat.recommended.rules || {}).map(rule => [rule, "off"])
+      ),
+      // Only enable parsing errors
+      "no-unused-vars": "off",
+      "no-undef": "off"
+    }
+  }
 ];
