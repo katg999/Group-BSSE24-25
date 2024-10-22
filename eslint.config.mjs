@@ -1,6 +1,7 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
+import pluginHooks from "eslint-plugin-react-hooks";  // Add this import
 
 export default [
   {
@@ -15,6 +16,10 @@ export default [
         }
       }
     },
+    plugins: {
+      react: pluginReact,
+      "react-hooks": pluginHooks
+    },
     rules: {
       // Disable all rules from pluginJs.configs.recommended
       ...Object.fromEntries(
@@ -24,15 +29,11 @@ export default [
       ...Object.fromEntries(
         Object.keys(pluginReact.configs.flat.recommended.rules || {}).map(rule => [rule, "off"])
       ),
-      // Only enable parsing errors
+      // Only enable parsing errors and hooks rules
       "no-unused-vars": "off",
-      "no-undef": "off"
+      "no-undef": "off",
+      "react-hooks/rules-of-hooks": "error",    // Checks rules of Hooks
+      "react-hooks/exhaustive-deps": "warn"     // Checks effect dependencies
     }
   }
 ];
-// {
-//   "plugins": ["react-hooks"],
-//   "rules": {
-//     "react-hooks/exhaustive-deps": "warn"
-//   }
-// }
