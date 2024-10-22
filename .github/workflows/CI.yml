@@ -27,6 +27,9 @@ jobs:
     - name: Run tests
       run: cd client && npm test
 
+    - name: Set executable permissions for eslint
+      run: chmod +x node_modules/.bin/eslint
+
     - name: Run linter
       run: npm run lint
 
