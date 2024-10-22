@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "nodemon index.js",
 		"build": "npm install",
+		"lint": "eslint .",
 		"test": "react-scripts test"
 	},
 	"keywords": [],
